@@ -106,10 +106,6 @@ export default function Home() {
     ]}
     interval={2000}
   />
-              <div className="statistics__heading">Increase happiness</div>
-              <div className="statistics__heading">
-                Be the best version of yourself!
-              </div>
             </div>
             <div className="statistics__content--details">
               <div className="statistics__data">
