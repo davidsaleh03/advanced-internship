@@ -5,10 +5,19 @@ import { useState } from 'react'
 import logo from '../assets/logo.png'
 import landing from '../assets/landing.png'
 import { FaFileAlt, FaLightbulb, FaMicrophone } from "react-icons/fa";
+import RotatingList from "../components/RotatingList";
 
 export default function Home() {
 
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const items1 = [
+    "Enhance your knowledge",
+  "Achieve greater success",
+  "Improve your health",
+  "Develop better parenting skills",
+  "Increase happiness",
+  "Be the best version of yourself!"
+  ]
   return (
 
   <body>
@@ -86,12 +95,17 @@ export default function Home() {
           </div>
           <div className="statistics__wrapper">
             <div className="statistics__content--header">
-              <div className="statistics__heading">Enhance your knowledge</div>
-              <div className="statistics__heading">Achieve greater success</div>
-              <div className="statistics__heading">Improve your health</div>
-              <div className="statistics__heading">
-                Develop better parenting skills
-              </div>
+              <RotatingList
+    items={[
+      "Enhance your knowledge",
+      "Achieve greater success",
+      "Improve your health",
+      "Develop better parenting skills",
+      "Increase happiness",
+      "Be the best version of yourself!",
+    ]}
+    interval={2000}
+  />
               <div className="statistics__heading">Increase happiness</div>
               <div className="statistics__heading">
                 Be the best version of yourself!
@@ -148,12 +162,17 @@ export default function Home() {
             <div
               className="statistics__content--header statistics__content--header-second"
             >
-              <div className="statistics__heading">Expand your learning</div>
-              <div className="statistics__heading">Accomplish your goals</div>
-              <div className="statistics__heading">Strengthen your vitality</div>
-              <div className="statistics__heading">Become a better caregiver</div>
-              <div className="statistics__heading">Improve your mood</div>
-              <div className="statistics__heading">Maximize your abilities</div>
+              <RotatingList
+    items={[
+      "Expand your learning",
+      "Accomplish your goals",
+      "Strengthen your vitality",
+      "Become a better caregiver",
+      "Improve your mood",
+      "Maximize your abilities",
+    ]}
+    interval={2000}
+  />
             </div>
           </div>
         </div>
