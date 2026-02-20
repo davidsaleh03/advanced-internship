@@ -31,7 +31,10 @@ export const recommendedApi = createApi({
     getSelectedBook: builder.query<Book[], void>({
       query: () => 'getBooks?status=selected',
     }),
+    getSuggestedBook: builder.query<Book[], void>({
+      query: () => 'getBooks?status=suggested',
+    }),
   }),
 })
 
-export const { useGetRecommendedBooksQuery, useGetSelectedBookQuery } = recommendedApi
+export const { useGetRecommendedBooksQuery, useGetSelectedBookQuery, useGetSuggestedBookQuery } = recommendedApi

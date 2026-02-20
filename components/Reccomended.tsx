@@ -1,12 +1,15 @@
-import { useGetRecommendedBooksQuery } from '@/redux/reccomenedSlice'
+import { useGetRecommendedBooksQuery, useGetSelectedBookQuery } from '@/redux/reccomenedSlice'
 import Link from 'next/link'
 import React from 'react'
 import { CiStar, CiTimer } from 'react-icons/ci'
 
-const Reccomended = () => {
-    const {data} = useGetRecommendedBooksQuery()
+interface ReccomendedProps {
+  dataSet: any[]; 
+}
 
-    const Reccomended = data ?? []
+const Reccomended: React.FC<ReccomendedProps> = ({ dataSet }) => {
+
+    const Reccomended = dataSet ?? []
 
   return (
     <>
