@@ -1,9 +1,6 @@
 import Link from "next/link";
 import React from "react";
 import { useGetSelectedBookQuery } from "@/redux/reccomenedSlice";
-import Image from "next/image";
-import { FaPlay } from "react-icons/fa";
-import { IoPlayCircle } from "react-icons/io5";
 import { IoIosPlay } from "react-icons/io";
 
 const Selected = () => {
