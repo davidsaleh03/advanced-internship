@@ -15,7 +15,7 @@ const Sidebar = () => {
       </div>
       <div className="sidebar__wrapper">
         <div className="sidebar__top">
-          <Link href="/for-you" className="sidebar__link--wrapper">
+          <Link href="/dashboard/for-you" className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper">
               <FaHome />

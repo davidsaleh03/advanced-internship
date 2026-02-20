@@ -9,7 +9,7 @@ const Selected = () => {
    
    const selectedBook = data?.[0]
   return (
-    <Link href="/book" className="selected__book">
+    <Link href={`/dashboard/book/${selectedBook?.id}`} className="selected__book">
       <div className="selected__book--sub-title">
          {selectedBook?.subTitle}
       </div>

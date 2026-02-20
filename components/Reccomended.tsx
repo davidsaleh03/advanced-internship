@@ -15,7 +15,7 @@ const Reccomended: React.FC<ReccomendedProps> = ({ dataSet }) => {
     <>
     {
         Reccomended?.map((book) => {
-            return <Link href='/book' key={book.id} className='for-you__recommended--books-link'>
+            return <Link href={`/dashboard/book/${book.id}`} key={book.id} className='for-you__recommended--books-link'>
                 {
                     book.subscriptionRequired 
                     &&

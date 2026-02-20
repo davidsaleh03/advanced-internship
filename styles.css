@@ -1460,6 +1460,11 @@ input {
     height: 140px;
     min-width: 140px;
 }
+.image--wrapper--3 {
+    width: 300px;
+    height: 300px;
+    min-width: 300px;
+}
 
 .book__image {
     width: 100%;
