@@ -1,4 +1,6 @@
+'use client'
 import Link from "next/link";
+import { usePathname } from 'next/navigation';
 import '../styles.css'
 import { FaHome, FaBookmark, FaPenAlt, FaRegQuestionCircle } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -6,8 +8,10 @@ import { IoIosSettings } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import Image from "next/image";
 import Logo from '../assets/logo.png'
+import RotatingFonts from "./RotatingFonts";
 
 const Sidebar = () => {
+    const pathname = usePathname();
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
@@ -43,6 +47,7 @@ const Sidebar = () => {
             </div>
             <div className="sidebar__link--text">Search</div>
           </div>
+          {pathname.startsWith('/dashboard/player/') && <RotatingFonts />}
         </div>
         <div className="sidebar__bottom">
           <Link href="/settings" className="sidebar__link--wrapper">
