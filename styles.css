@@ -89,8 +89,8 @@ input {
 
 @media (max-width: 768px) {
     .wrapper {
-        margin-left:0;
-        width: 100%
+        margin-left:0 !important;
+        width: 100% !important;
     }
 }
 
@@ -337,6 +337,15 @@ input {
 .reviews__btn--wrapper {
     display: flex;
     justify-content: center
+}
+
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-left: 200px;
+    width: calc(100% - 200px);
+    transition: all .3s;
 }
 
 .numbers {
@@ -1444,6 +1453,12 @@ input {
 .book__image--wrapper {
     width: 172px;
     height: 172px
+}
+
+.image--wrapper--2 {
+    width: 140px;
+    height: 140px;
+    min-width: 140px;
 }
 
 .book__image {
