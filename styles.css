@@ -1465,6 +1465,11 @@ input {
     height: 300px;
     min-width: 300px;
 }
+.book__image--wrapper-5 {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+}
 
 .book__image {
     width: 100%;
@@ -1535,6 +1540,10 @@ input {
     transform: translateY(-50%);
     z-index: 1;
     cursor: pointer
+}
+
+.audio__progress--color {
+
 }
 
 .for-you__arrow svg {
@@ -2008,7 +2017,14 @@ input {
     outline: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none
+    appearance: none;
+    background: linear-gradient(
+    to right,
+    rgb(43, 217, 124) 0%,
+    rgb(43, 217, 124) var(--progress),
+    rgb(109, 120, 125) var(--progress),
+    rgb(109, 120, 125) 100%
+  );
 }
 
 .audio__progress--bar::-webkit-slider-thumb {
