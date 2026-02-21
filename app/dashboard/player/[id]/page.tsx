@@ -2,10 +2,13 @@
 import { useGetBookQuery } from "@/redux/reccomenedSlice";
 import { useParams } from "next/navigation";
 import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 
 const player = () => {
+  const fontSize = useSelector((state: RootState) => state.font.value);
   const params = useParams();
   const id = params?.id as string;
 
@@ -79,7 +82,7 @@ const player = () => {
   return (
     <div className="wrapper">
       <div className="summary">
-        <div className="audio__book--summary">
+        <div className="audio__book--summary" style={{ fontSize: `${fontSize}px` }}>
           <div className="audio__book--summary-title">{bookInfo?.title}</div>
           <div className="audio__book--summary-text">{bookInfo?.summary}</div>
         </div>
