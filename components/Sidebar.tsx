@@ -29,7 +29,7 @@ const Sidebar = () => {
 
         return () => unsubscribe(); 
     }, []);
-    
+
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
@@ -68,7 +68,7 @@ const Sidebar = () => {
           {pathname.startsWith('/dashboard/player/') && <RotatingFonts />}
         </div>
         <div className="sidebar__bottom">
-          <Link href="/settings" className="sidebar__link--wrapper">
+          <Link href="/dashboard/settings" className="sidebar__link--wrapper">
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper">
               <IoIosSettings />

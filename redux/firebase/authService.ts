@@ -1,5 +1,5 @@
 "use client"; 
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
@@ -17,6 +17,30 @@ export const register = async (email: string, password: string) => {
   });
 
   return userCredential;
+};
+
+export const getCurrentUserData = async () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userRef = doc(db, "users", user.uid);
+          const userSnap = await getDoc(userRef);
+
+          if (userSnap.exists()) {
+            resolve(userSnap.data());
+          } else {
+            resolve(null); 
+          }
+        } catch (error) {
+          reject(error);
+        }
+      } else {
+        resolve(null);
+      }
+      unsubscribe(); 
+    });
+  });
 };
 
 export const login = async (email: string, password: string) => {
