@@ -6,10 +6,13 @@ import logo from '../assets/logo.png'
 import landing from '../assets/landing.png'
 import { FaFileAlt, FaLightbulb, FaMicrophone } from "react-icons/fa";
 import RotatingList from "../components/RotatingList";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import { openModal } from "@/redux/modalSlice";
 
 export default function Home() {
-
-  const [modal, setModal] = useState(false);
+  const dispatch = useDispatch();
+const modal = useSelector((state: RootState) => state.modal.isOpen);
   const items1 = [
     "Enhance your knowledge",
   "Achieve greater success",
@@ -21,14 +24,13 @@ export default function Home() {
   return (
 
   <body>
-    <Login modal={modal} setModal={setModal}/>
     <nav className="nav">
       <div className="nav__wrapper">
         <figure className="nav__img--mask">
           <Image className="nav__img" src={logo} alt="logo" />
         </figure>
         <ul className="nav__list--wrapper">
-          <li className="nav__list nav__list--login" onClick={() => setModal(true)}>Login</li>
+          <li className="nav__list nav__list--login" onClick={() => dispatch(openModal())}>Login</li>
           <li className="nav__list nav__list--mobile">About</li>
           <li className="nav__list nav__list--mobile">Contact</li>
           <li className="nav__list nav__list--mobile">Help</li>
@@ -51,7 +53,7 @@ export default function Home() {
                 <br className="remove--tablet" />
                 and even people who don’t like to read.
               </div>
-              <button className="btn home__cta--btn" onClick={() => setModal(true)}>Login</button>
+              <button className="btn home__cta--btn" onClick={() => dispatch(openModal())}>Login</button>
             </div>
             <figure className="landing__image--mask">
               <Image src={landing} alt="logo" />
@@ -235,7 +237,7 @@ export default function Home() {
             </div>
           </div>
           <div className="reviews__btn--wrapper">
-            <button className="btn home__cta--btn" onClick={() => setModal(true)}>Login</button>
+            <button className="btn home__cta--btn" onClick={() => dispatch(openModal())}>Login</button>
           </div>
         </div>
       </div>

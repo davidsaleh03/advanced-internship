@@ -5,13 +5,31 @@ import '../styles.css'
 import { FaHome, FaBookmark, FaPenAlt, FaRegQuestionCircle } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { IoIosSettings } from "react-icons/io";
-import { MdLogout } from "react-icons/md";
+import { MdLogin, MdLogout } from "react-icons/md";
 import Image from "next/image";
 import Logo from '../assets/logo.png'
 import RotatingFonts from "./RotatingFonts";
+import { logout } from "@/redux/firebase/authService";
+import { auth } from "../redux/firebase/firebase";
+import { useDispatch } from "react-redux";
+import { openModal } from "@/redux/modalSlice";
+import { useEffect, useState } from "react";
+import { User } from "firebase/auth";
 
 const Sidebar = () => {
+    const dispatch = useDispatch();
     const pathname = usePathname();
+
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+            setUser(currentUser);
+        });
+
+        return () => unsubscribe(); 
+    }, []);
+    
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
@@ -64,13 +82,25 @@ const Sidebar = () => {
             </div>
             <div className="sidebar__link--text">Help & Support</div>
           </div>
-          <div className="sidebar__link--wrapper">
+          {
+            user
+            ?
+          <div className="sidebar__link--wrapper" onClick={logout}>
             <div className="sidebar__link--line"></div>
             <div className="sidebar__icon--wrapper">
               <MdLogout />
             </div>
             <div className="sidebar__link--text">Logout</div>
           </div>
+          :
+          <div className="sidebar__link--wrapper" onClick={() => dispatch(openModal())}>
+            <div className="sidebar__link--line"></div>
+            <div className="sidebar__icon--wrapper">
+              <MdLogin />
+            </div>
+            <div className="sidebar__link--text">Login</div>
+          </div>
+          }
         </div>
       </div>
     </div>

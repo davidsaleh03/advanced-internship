@@ -5,21 +5,28 @@ import google from '../assets/google.png'
 import Image from 'next/image'
 import { signInWithGoogle } from "@/redux/firebase/authService";
 import { register, login } from "@/redux/firebase/authService";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import { closeModal } from "@/redux/modalSlice";
 
-type LoginProps = {
-modal: boolean;
-setModal: Function;
-}
-
-const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
+const Login = () => {
+    const dispatch = useDispatch();
+    const modal = useSelector((state: RootState) => state.modal.isOpen);  
     const handleGoogleSignIn = async () => {
     try {
       const user = await signInWithGoogle();
       console.log("Logged in user:", user);
-      setModal(false); 
+      dispatch(closeModal()); 
     } catch (err) {
       console.error("Google Sign-In Error:", err);
     }
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await register(email, password);
+    }
+    catch{}
   };
   
     const [isLogin, setIsLogin] = useState(true)
@@ -58,10 +65,10 @@ const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
                     <div className="auth__separator">
                         <span className="auth__separator--text">or</span>
                     </div>
-                    <form className="auth__main--form">
+                    <form className="auth__main--form" onSubmit={() => login(email, password)}>
                         <input type="email" className="auth__main--input" placeholder='Email Address' onChange={(e) => setEmail(e.target.value)} required/>
                         <input type="password" className="auth__main--input" placeholder='Password' onChange={(e) => setPassword(e.target.value)} required/>
-                        <button className="btn" onClick={() => login(email, password)}>
+                        <button className="btn">
                             <span>Login</span>
                         </button>
                     </form>
@@ -81,10 +88,10 @@ const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
                     <div className="auth__separator">
                         <span className="auth__separator--text">or</span>
                     </div>
-                    <form className="auth__main--form">
+                    <form className="auth__main--form" onSubmit={handleSubmit}>
                         <input type="email" className="auth__main--input" placeholder='Email Address' onChange={(e) => setEmail(e.target.value)} required/>
                         <input type="password" className="auth__main--input" placeholder='Password' onChange={(e) => setPassword(e.target.value)} required/>
-                        <button className="btn" onClick={() => register(email, password)}>
+                        <button className="btn">
                             <span>Sign up</span>
                         </button>
                     </form>
@@ -92,7 +99,7 @@ const Login: React.FC<LoginProps> = ({ modal, setModal }) => {
                 <button className="auth__switch--btn" onClick={() => setIsLogin(true)}>Already have an account?</button>
                 </>
                 }
-                <div className="auth__close--btn" onClick={() => setModal(false)}>
+                <div className="auth__close--btn" onClick={() => dispatch(closeModal())}>
                     <HiXMark />
                 </div>
             </div>
