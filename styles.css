@@ -61,8 +61,8 @@ input {
 }
 
 .wrapper__full {
-    margin-left: 0;
-    width: 100%
+    margin-left: 0 !important;
+    width: 100% !important;
 }
 
 .btn {
@@ -1436,7 +1436,11 @@ input {
     transition: height .35s ease
 }
 
-.collapse.show {
+/* .collapse.show {
+    height: auto
+} */
+
+.show {
     height: auto
 }
 

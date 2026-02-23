@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import { getCurrentUserData } from '@/redux/firebase/authService';
+import Link from 'next/link';
 
 const SettingsIn = () => {
   const [userData, setUserData] = useState<any>(null);
@@ -18,7 +19,9 @@ const SettingsIn = () => {
       <div className="setting__content">
         <div className="settings__sub--title">Your Subscription Plan</div>
         <div className="settings__text">{userData?.membershipStatus}</div>
+        <Link href="/choose-plan">
         <div className="btn settings__upgrade--btn">Upgrade to Premium</div>
+        </Link>
       </div>
       <div className="setting__content">
         <div className="settings__sub--title">Email</div>
