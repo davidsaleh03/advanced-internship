@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
+import { ImSpinner2 } from "react-icons/im";
 
 const player = () => {
   const fontSize = useSelector((state: RootState) => state.font.value);
   const params = useParams();
   const id = params?.id as string;
 
-  const { data } = useGetBookQuery({ id });
+  const { data, isLoading } = useGetBookQuery({ id });
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -82,63 +83,90 @@ const player = () => {
   return (
     <div className="wrapper">
       <div className="summary">
-        <div className="audio__book--summary" style={{ fontSize: `${fontSize}px` }}>
-          <div className="audio__book--summary-title">{bookInfo?.title}</div>
-          <div className="audio__book--summary-text">{bookInfo?.summary}</div>
-        </div>
-        <div className="audio__wrapper">
-          <audio
-            ref={audioRef}
-            src={bookInfo?.audioLink}
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetaData}
-          />
-          <div className="audio__track--wrapper">
-            <figure className="audio__track--image-mask">
-              <figure className="book__image--wrapper book__image--wrapper-5">
-                <img src={bookInfo?.imageLink} alt="" className="book__image" />
-              </figure>
-            </figure>
-            <div className="audio__track--details-wrapper">
-              <div className="audio__track--title">{bookInfo?.title}</div>
-              <div className="audio__track--author">{bookInfo?.author}</div>
+        {isLoading ? (
+          <>
+            <div className="audio__book--spinner">
+              <ImSpinner2 />
             </div>
-          </div>
-          <div className="audio__controls--wrapper">
-            <div className="audio__controls">
-              <button className="audio__controls--btn" onClick={skipBackward}>
-                <TbRewindBackward10 />
-              </button>
-              <button
-                className="audio__controls--btn audio__controls--btn-play"
-                onClick={togglePlay}
-              >
-                {isPlaying ? <IoIosPause /> : <IoIosPlay />}
-              </button>
-              <button className="audio__controls--btn" onClick={skipForward}>
-                <TbRewindForward10 />
-              </button>
+          </>
+        ) : (
+          <>
+            <div
+              className="audio__book--summary"
+              style={{ fontSize: `${fontSize}px` }}
+            >
+              <div className="audio__book--summary-title">
+                {bookInfo?.title}
+              </div>
+              <div className="audio__book--summary-text">
+                {bookInfo?.summary}
+              </div>
             </div>
-          </div>
-          <div className="audio__progress--wrapper audio__progress--color">
-            <div className="audio__time">{timer(currentTime)}</div>
-            <input
-              type="range"
-              max={duration}
-              value={currentTime}
-              onChange={handleSeek}
-              className="audio__progress--bar"
-              style={
-                {
-                  "--progress": duration
-                    ? `${(currentTime / duration) * 100}%`
-                    : "0%",
-                } as React.CSSProperties
-              }
-            />
-            <div className="audio__time">{timer(duration)}</div>
-          </div>
-        </div>
+            <div className="audio__wrapper">
+              <audio
+                ref={audioRef}
+                src={bookInfo?.audioLink}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetaData}
+              />
+              <div className="audio__track--wrapper">
+                <figure className="audio__track--image-mask">
+                  <figure className="book__image--wrapper book__image--wrapper-5">
+                    <img
+                      src={bookInfo?.imageLink}
+                      alt=""
+                      className="book__image"
+                    />
+                  </figure>
+                </figure>
+                <div className="audio__track--details-wrapper">
+                  <div className="audio__track--title">{bookInfo?.title}</div>
+                  <div className="audio__track--author">{bookInfo?.author}</div>
+                </div>
+              </div>
+              <div className="audio__controls--wrapper">
+                <div className="audio__controls">
+                  <button
+                    className="audio__controls--btn"
+                    onClick={skipBackward}
+                  >
+                    <TbRewindBackward10 />
+                  </button>
+                  <button
+                    className="audio__controls--btn audio__controls--btn-play"
+                    onClick={togglePlay}
+                  >
+                    {isPlaying ? <IoIosPause /> : <IoIosPlay />}
+                  </button>
+                  <button
+                    className="audio__controls--btn"
+                    onClick={skipForward}
+                  >
+                    <TbRewindForward10 />
+                  </button>
+                </div>
+              </div>
+              <div className="audio__progress--wrapper audio__progress--color">
+                <div className="audio__time">{timer(currentTime)}</div>
+                <input
+                  type="range"
+                  max={duration}
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="audio__progress--bar"
+                  style={
+                    {
+                      "--progress": duration
+                        ? `${(currentTime / duration) * 100}%`
+                        : "0%",
+                    } as React.CSSProperties
+                  }
+                />
+                <div className="audio__time">{timer(duration)}</div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 
 'use client'
 import { useGetBookQuery } from "@/redux/reccomenedSlice";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 import { CiBookmark, CiClock1, CiStar } from "react-icons/ci";
@@ -13,12 +14,35 @@ const Book = () => {
      const params = useParams();
   const id = params?.id as string;
 
-  const { data } = useGetBookQuery({ id });
+  const { data, isLoading } = useGetBookQuery({ id });
   const bookInfo = data;
 
   return (
     <div className="wrapper">
       <div className="row">
+        {
+          isLoading
+          ?
+
+        <div className="container">
+          <div className="inner__book--skeleton">
+            <div className="inner__book--skeleton-content">
+              <div className="skeleton" style={{width:'70%', height:'32px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'40%', height:'32px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'100%', height:'32px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'45%', height:'64px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'50%', height:'32px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'20%', height:'32px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'50%', height:'64px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'80%', height:'180px', marginBottom:'16px'}}></div>
+              <div className="skeleton" style={{width:'80%', height:'268px'}}></div>
+            </div>
+            <div className="inner__book--skeleton-img">
+              <div className="skeleton" style={{width:'300px', height:'300px', marginBottom:'16px'}}></div>
+            </div>
+          </div>
+        </div>
+        :
         <div className="container">
           <div className="inner__wrapper">
             <div className="inner__book">
@@ -46,18 +70,22 @@ const Book = () => {
                 </div>
               </div>
               <div className="inner-book__read--btn-wrapper">
+                <Link href={`/dashboard/player/${bookInfo?.id}`}>
                 <button className="inner-book__read--btn">
                   <div className="inner-book__read--icon">
                     <FaReadme />
                   </div>
                   <div className="inner-book__read--text">Read</div>
                 </button>
+                </Link>
+                <Link href={`/dashboard/player/${bookInfo?.id}`}>
                 <button className="inner-book__read--btn">
                   <div className="inner-book__read--icon">
                     <TiMicrophoneOutline />
                   </div>
                   <div className="inner-book__read--text">Listen</div>
                 </button>
+                </Link>
               </div>
               <div className="inner-book__bookmark">
                 <div className="inner-book__bookmark--icon">
@@ -88,6 +116,7 @@ const Book = () => {
             </div>
           </div>
         </div>
+        }
       </div>
     </div>
   );

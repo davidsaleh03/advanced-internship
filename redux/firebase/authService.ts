@@ -13,6 +13,7 @@ export const register = async (email: string, password: string) => {
     uid: user.uid,
     email: user.email,
     membershipStatus: "Basic",
+    Books: [],
     createdAt: new Date(),
   });
 
@@ -67,8 +68,8 @@ export const signInWithGoogle = async () => {
         uid: user.uid,
         email: user.email,
         name: user.displayName,
-        photoURL: user.photoURL,
-        membershipStatus: "free",
+        membershipStatus: "Basic",
+        Books: [],
         createdAt: serverTimestamp(),
       });
     }

@@ -5,8 +5,8 @@ import { useGetRecommendedBooksQuery, useGetSuggestedBookQuery } from '@/redux/r
 import React from 'react'
 
 const ForYou: React.FC = () => {
-    const { data: dataSet1 } = useGetRecommendedBooksQuery();
-    const { data: dataSet2 } = useGetSuggestedBookQuery();
+    const { data: dataSet1, isLoading: isLoading1 } = useGetRecommendedBooksQuery();
+    const { data: dataSet2, isLoading: isLoading2} = useGetSuggestedBookQuery();
   return (
     <div className="wrapper">
     <div className="row">
@@ -18,14 +18,14 @@ const ForYou: React.FC = () => {
                     <div className="for-you__title">Recommended For You</div>
                     <div className="for-you__sub--title">We think you’ll like these</div>
                     <div className="for-you__recommended--books">
-                        <Reccomended dataSet={dataSet1 || []}/>
+                        <Reccomended dataSet={dataSet1 || []} loadingSet={isLoading1}/>
                     </div>
                 </div>
                 <div>
                     <div className="for-you__title">Suggested Books</div>
                     <div className="for-you__sub--title">Browse those books</div>
                     <div className="for-you__recommended--books">
-                        <Reccomended dataSet={dataSet2 || []}/>
+                        <Reccomended dataSet={dataSet2 || []} loadingSet={isLoading2}/>
                     </div>
                 </div>
             </div>

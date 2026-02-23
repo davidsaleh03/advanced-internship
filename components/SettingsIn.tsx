@@ -18,14 +18,14 @@ const SettingsIn = () => {
     <>
       <div className="setting__content">
         <div className="settings__sub--title">Your Subscription Plan</div>
-        <div className="settings__text">{userData?.membershipStatus}</div>
+        <div className="settings__text">{userData?.membershipStatus || "[ ]"}</div>
         <Link href="/choose-plan">
         <div className="btn settings__upgrade--btn">Upgrade to Premium</div>
         </Link>
       </div>
       <div className="setting__content">
         <div className="settings__sub--title">Email</div>
-        <div className="settings__text">{userData?.email}</div>
+        <div className="settings__text">{userData?.email || "[ ]"}</div>
       </div>
     </>
   );
