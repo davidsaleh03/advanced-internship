@@ -1,21 +1,61 @@
 
 'use client'
+import { addBookToLibrary, getCurrentUserData, removeBookFromLibrary } from "@/redux/firebase/authService";
+import { openModal } from "@/redux/modalSlice";
 import { useGetBookQuery } from "@/redux/reccomenedSlice";
-import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
-import { CiBookmark, CiClock1, CiStar } from "react-icons/ci";
-import { FaReadme } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { CiClock1, CiStar } from "react-icons/ci";
+import { FaBookmark, FaReadme, FaRegBookmark } from "react-icons/fa";
 import { HiOutlineLightBulb, HiOutlineMicrophone } from "react-icons/hi2";
 import { TiMicrophoneOutline } from "react-icons/ti";
+import { useDispatch } from "react-redux";
 
 
 const Book = () => {
      const params = useParams();
+     const dispatch = useDispatch();
+     const router = useRouter();
   const id = params?.id as string;
+   const [userData, setUserData] = useState<any>(null);
+   const [libStatus, setLibStatus] = useState(false)
 
   const { data, isLoading } = useGetBookQuery({ id });
   const bookInfo = data;
+
+  useEffect(() => {
+        getCurrentUserData()
+          .then((data) => setUserData(data))
+          .catch((err) => console.error(err))
+      }, []);
+
+  const handleLibrary = async () => {
+  if (!userData?.uid ) {
+    dispatch(openModal())
+    return
+  };
+
+  try {
+    if (libStatus) {
+      await removeBookFromLibrary(userData.uid, data?.id);
+      setLibStatus(false);
+    } else {
+      await addBookToLibrary(userData.uid, data?.id);
+      setLibStatus(true);
+    }
+  } catch (error) {
+    console.error("Library update failed:", error);
+  }
+};
+
+const handleNavigateToPlayer = () => {
+if (!userData?.uid || !data?.id) {
+  dispatch(openModal())
+  return
+}
+router.push(`/dashboard/player/${bookInfo?.id}`)
+}
 
   return (
     <div className="wrapper">
@@ -70,31 +110,43 @@ const Book = () => {
                 </div>
               </div>
               <div className="inner-book__read--btn-wrapper">
-                <Link href={`/dashboard/player/${bookInfo?.id}`}>
-                <button className="inner-book__read--btn">
+           
+                <button className="inner-book__read--btn" onClick={handleNavigateToPlayer}>
                   <div className="inner-book__read--icon">
                     <FaReadme />
                   </div>
                   <div className="inner-book__read--text">Read</div>
                 </button>
-                </Link>
-                <Link href={`/dashboard/player/${bookInfo?.id}`}>
-                <button className="inner-book__read--btn">
+
+                <button className="inner-book__read--btn" onClick={handleNavigateToPlayer}>
                   <div className="inner-book__read--icon">
                     <TiMicrophoneOutline />
                   </div>
                   <div className="inner-book__read--text">Listen</div>
                 </button>
-                </Link>
+
               </div>
-              <div className="inner-book__bookmark">
+              {
+                libStatus
+                ?
+              <div className="inner-book__bookmark" onClick={handleLibrary}>
                 <div className="inner-book__bookmark--icon">
-                  <CiBookmark />
+                  <FaBookmark />
+                </div>
+                <div className="inner-book__bookmark--text">
+                  Saved In My Library 
+                </div>
+              </div>
+              :
+              <div className="inner-book__bookmark" onClick={handleLibrary}>
+                <div className="inner-book__bookmark--icon">
+                  <FaRegBookmark />
                 </div>
                 <div className="inner-book__bookmark--text">
                   Add title to My Library
                 </div>
               </div>
+              }
               <div className="inner-book__secondary--title">
                 What's it about?
               </div>

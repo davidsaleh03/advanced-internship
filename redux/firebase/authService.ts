@@ -2,7 +2,7 @@
 import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "./firebase";
 
 export const register = async (email: string, password: string) => {
@@ -14,6 +14,7 @@ export const register = async (email: string, password: string) => {
     email: user.email,
     membershipStatus: "Basic",
     Books: [],
+    Library: [],
     createdAt: new Date(),
   });
 
@@ -55,6 +56,34 @@ export const addBookToUser = async (userId: string, book: any) => {
     console.log("Book added successfully!");
   } catch (error) {
     console.error("Error adding book: ", error);
+  }
+};
+
+export const addBookToLibrary = async (userId: string, book: any) => {
+  try {
+    const userRef = doc(db, "users", userId);
+
+    await updateDoc(userRef, {
+      Library: arrayUnion(book),
+    });
+
+    console.log("Book added successfully!");
+  } catch (error) {
+    console.error("Error adding book: ", error);
+  }
+};
+
+export const removeBookFromLibrary = async (userId: string, book: any) => {
+  try {
+    const userRef = doc(db, "users", userId);
+
+    await updateDoc(userRef, {
+      Library: arrayRemove(book),
+    });
+
+    console.log("Book removed successfully!");
+  } catch (error) {
+    console.error("Error removing book: ", error);
   }
 };
 
