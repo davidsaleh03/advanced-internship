@@ -2056,6 +2056,12 @@ input {
     animation: spin 1s linear infinite
 }
 
+.load__settings {
+    width: 12px;
+    height: 12px;
+    animation: spin 1s linear infinite
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg)

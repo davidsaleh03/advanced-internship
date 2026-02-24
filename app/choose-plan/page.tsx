@@ -5,11 +5,15 @@ import photo from '../../assets/pricing-top.png'
 import { FaFileAlt, FaHandshake } from 'react-icons/fa'
 import { RiPlantFill } from 'react-icons/ri'
 import AccordianCard from '@/components/AccordianCard'
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
+
+AOS.init();
 
 const plans = () => {
  const [activeSub, setActiveSub] = useState(false)
   return (
-    <div className="wrapper wrapper__full">
+    <div className="wrapper wrapper__full" data-aos="fade-left">
         <div className="plan">
             <div className="plan__header--wrapper">
                 <div className="plan__header">

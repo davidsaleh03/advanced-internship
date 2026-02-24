@@ -21,6 +21,20 @@ const Sidebar = () => {
     const pathname = usePathname();
 
     const [user, setUser] = useState<User | null>(null);
+    const [tab, setTab] = useState<String | null>(null)
+
+    useEffect(() => {
+  if (pathname.endsWith('/dashboard/for-you')) {
+    setTab('one');
+  } else if (pathname.endsWith('/dashboard/library')) {
+    setTab('two');
+  } else if (pathname.endsWith('/dashboard/settings')) {
+    setTab('three');
+  } else {
+    setTab(null);
+  }
+}, [pathname]);
+
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -38,14 +52,14 @@ const Sidebar = () => {
       <div className="sidebar__wrapper">
         <div className="sidebar__top">
           <Link href="/dashboard/for-you" className="sidebar__link--wrapper">
-            <div className="sidebar__link--line"></div>
+            <div className={`sidebar__link--line ${tab === 'one' && 'active--tab'}`}></div>
             <div className="sidebar__icon--wrapper">
               <FaHome />
             </div>
             <div className="sidebar__link--text">For you</div>
           </Link>
           <Link href="/dashboard/library" className="sidebar__link--wrapper">
-            <div className="sidebar__link--line"></div>
+            <div className={`sidebar__link--line ${tab === 'two' && 'active--tab'}`}></div>
             <div className="sidebar__icon--wrapper">
               <FaBookmark />
             </div>
@@ -69,14 +83,14 @@ const Sidebar = () => {
         </div>
         <div className="sidebar__bottom">
           <Link href="/dashboard/settings" className="sidebar__link--wrapper">
-            <div className="sidebar__link--line"></div>
+            <div className={`sidebar__link--line ${tab === 'three' && 'active--tab'}`}></div>
             <div className="sidebar__icon--wrapper">
               <IoIosSettings />
             </div>
             <div className="sidebar__link--text">Settings</div>
           </Link>
           <div className="sidebar__link--wrapper sidebar__link--not-allowed">
-            <div className="sidebar__link--line"></div>
+            <div className={`sidebar__link--line`}></div>
             <div className="sidebar__icon--wrapper">
               <FaRegQuestionCircle />
             </div>

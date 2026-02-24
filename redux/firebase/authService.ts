@@ -1,8 +1,8 @@
 "use client"; 
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "./firebase";
 
 export const register = async (email: string, password: string) => {
@@ -44,10 +44,27 @@ export const getCurrentUserData = async () => {
   });
 };
 
+export const addBookToUser = async (userId: string, book: any) => {
+  try {
+    const userRef = doc(db, "users", userId);
+
+    await updateDoc(userRef, {
+      Books: arrayUnion(book),
+    });
+
+    console.log("Book added successfully!");
+  } catch (error) {
+    console.error("Error adding book: ", error);
+  }
+};
+
 export const login = async (email: string, password: string) => {
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
+export const resetPassword = async (email: string) => {
+    return await sendPasswordResetEmail(auth, email);
+}
 
 export const logout = async () => {
   return await signOut(auth);

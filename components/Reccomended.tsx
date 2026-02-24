@@ -16,7 +16,7 @@ const Reccomended: React.FC<ReccomendedProps> = ({ dataSet, loadingSet }) => {
       {loadingSet
         ? [1, 2, 3, 4, 5, 6].map((_, i) => {
             return (
-              <div className="for-you__recommended--books-link">
+              <div className="for-you__recommended--books-link" key={i}>
                 <div
                   className="skeleton"
                   style={{ width: "172px", height: "172px", marginBottom: '8px' }}

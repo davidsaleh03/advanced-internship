@@ -1,12 +1,13 @@
 "use client";
 import { useGetBookQuery } from "@/redux/reccomenedSlice";
 import { useParams } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { IoIosPause, IoIosPlay } from "react-icons/io";
 import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
 import { ImSpinner2 } from "react-icons/im";
+import { addBookToUser, getCurrentUserData } from "@/redux/firebase/authService";
 
 const player = () => {
   const fontSize = useSelector((state: RootState) => state.font.value);
@@ -20,6 +21,7 @@ const player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [userData, setUserData] = useState<any>(null);
 
   const bookInfo = data;
 
@@ -80,6 +82,16 @@ const player = () => {
     return `${minutesLeft}:${secondsLeft}`;
   };
 
+  useEffect(() => {
+      getCurrentUserData()
+        .then((data) => setUserData(data))
+        .catch((err) => console.error(err))
+    }, []);
+
+    const handleAudioEnded = () => {
+        addBookToUser(userData.uid, data?.id)
+  }
+
   return (
     <div className="wrapper">
       <div className="summary">
@@ -108,6 +120,7 @@ const player = () => {
                 src={bookInfo?.audioLink}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetaData}
+                onEnded={handleAudioEnded}
               />
               <div className="audio__track--wrapper">
                 <figure className="audio__track--image-mask">
