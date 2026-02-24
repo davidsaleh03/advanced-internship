@@ -11,7 +11,6 @@ import 'aos/dist/aos.css';
 AOS.init();
 
 const settings = () => {
-    const dispatch = useDispatch();
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
