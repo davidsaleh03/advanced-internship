@@ -209,7 +209,7 @@ const Login = () => {
                           }}
                           >
                             <figure className="google__icon--mask">
-                              <FaGoogle />
+                              <Image src={google} alt="logo" />
                             </figure>
                             {loading === '4' ? (
                               <div className="spinner__icon--wrapper">
