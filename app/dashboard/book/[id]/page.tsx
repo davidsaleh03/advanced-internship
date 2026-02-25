@@ -54,8 +54,13 @@ if (!userData?.uid || !data?.id) {
   dispatch(openModal())
   return
 }
+else if (userData.membershipStatus === 'Basic' && bookInfo?.subscriptionRequired) {
+  router.push('/choose-plan')
+  return
+}
 router.push(`/dashboard/player/${bookInfo?.id}`)
 }
+
 
   return (
     <div className="wrapper">

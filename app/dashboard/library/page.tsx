@@ -152,7 +152,8 @@ const Library = () => {
           <div className="for-you__title">Finished</div>
           <div className="for-you__sub--title">{booksAct.length || '0'} items</div>
             {booksAct.length !== 0 ? 
-            booksAct.map((book) => {
+            <div className="for-you__recommended--books">
+            {booksAct.map((book) => {
                 return (
                   <Link
                     href={`/dashboard/book/${book.id}`}
@@ -188,7 +189,8 @@ const Library = () => {
                     </div>
                   </Link>
                 );
-              })
+              })}
+              </div>
             :
           <div className="finished__books--block-wrapper">
             <div className="finished__books--title">Done and dusted!</div>
