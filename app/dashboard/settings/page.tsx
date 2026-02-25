@@ -8,9 +8,9 @@ import SettingsOut from '@/components/SettingsOut';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
 
-AOS.init();
 
 const settings = () => {
+    
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -20,6 +20,14 @@ const settings = () => {
     
             return () => unsubscribe(); 
         }, []);
+    useEffect(() => {
+  if (typeof window !== "undefined") {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }
+}, []);
   return (
     <div className="wrapper" data-aos="fade-left">
         <div className="container">

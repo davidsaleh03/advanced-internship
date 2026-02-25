@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import photo from '../../assets/pricing-top.png'
 import { FaFileAlt, FaHandshake } from 'react-icons/fa'
 import { RiPlantFill } from 'react-icons/ri'
@@ -13,7 +13,7 @@ import { getCheckoutUrl } from './stripepayment'
 import { useRouter } from 'next/navigation'
 import { ImSpinner2 } from 'react-icons/im'
 
-AOS.init();
+
 
 const plans = () => {
   const auth = getAuth(app);
@@ -43,6 +43,15 @@ const plans = () => {
       console.error("Stripe checkout error:", error)
     }
   }
+
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }
+}, []);
 
   return (
     <div className="wrapper wrapper__full" data-aos="fade-left">
