@@ -9,6 +9,9 @@ import RotatingList from "../components/RotatingList";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { openModal } from "@/redux/modalSlice";
+import { BiCrown } from 'react-icons/bi'
+import { RiLeafLine } from 'react-icons/ri'
+import { BsStarFill, BsStarHalf } from 'react-icons/bs'
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -185,7 +188,9 @@ const modal = useSelector((state: RootState) => state.modal.isOpen);
               <div className="review__header">
                 <div className="review__name">Hanna M.</div>
                 <div className="review__stars">
-                  {/* <BsStarFill /> */}
+                  {[1, 2, 3, 4, 5].map((_, i) => (
+                  <BsStarFill />
+                  ))}
                 </div>
               </div>
               <div className="review__body">
@@ -198,7 +203,9 @@ const modal = useSelector((state: RootState) => state.modal.isOpen);
               <div className="review__header">
                 <div className="review__name">David B.</div>
                 <div className="review__stars">
-                  {/* <BsStarFill /> */}
+                  {[1, 2, 3, 4, 5].map((_, i) => (
+                  <BsStarFill />
+                  ))}
                 </div>
               </div>
               <div className="review__body">
@@ -211,7 +218,9 @@ const modal = useSelector((state: RootState) => state.modal.isOpen);
               <div className="review__header">
                 <div className="review__name">Nathan S.</div>
                 <div className="review__stars">
-                  {/* <BsStarFill /> */}
+                  {[1, 2, 3, 4, 5].map((_, i) => (
+                  <BsStarFill />
+                  ))}
                 </div>
               </div>
               <div className="review__body">
@@ -225,7 +234,9 @@ const modal = useSelector((state: RootState) => state.modal.isOpen);
               <div className="review__header">
                 <div className="review__name">Ryan R.</div>
                 <div className="review__stars">
-                  {/* <BsStarFill /> */}
+                  {[1, 2, 3, 4, 5].map((_, i) => (
+                  <BsStarFill />
+                  ))}
                 </div>
               </div>
               <div className="review__body">
@@ -249,15 +260,17 @@ const modal = useSelector((state: RootState) => state.modal.isOpen);
           <div className="numbers__wrapper">
             <div className="numbers">
               <div className="numbers__icon">
-                {/* <BiCrown /> */}
+                <BiCrown />
               </div>
               <div className="numbers__title">3 Million</div>
               <div className="numbers__sub--title">Downloads on all platforms</div>
             </div>
             <div className="numbers">
               <div className="numbers__icon numbers__star--icon">
-                {/* <BsStarFill />
-                <BsStarHalf /> */}
+                {[1, 2, 3, 4].map((_, i) => (
+                  <BsStarFill />
+                  ))}
+                <BsStarHalf />
               </div>
               <div className="numbers__title">4.5 Stars</div>
               <div className="numbers__sub--title">
@@ -266,7 +279,7 @@ const modal = useSelector((state: RootState) => state.modal.isOpen);
             </div>
             <div className="numbers">
               <div className="numbers__icon">
-                {/* <RiLeafLine /> */}
+                <RiLeafLine />
               </div>
               <div className="numbers__title">97%</div>
               <div className="numbers__sub--title">
