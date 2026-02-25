@@ -13,6 +13,7 @@ const Library = () => {
   const [booksAct, setBooksAct] = useState<any[]>([]);
   const [libraryAct, setLibraryAct] = useState<any[]>([]);
   const [userData, setUserData] = useState<any>(null);
+  const [durations, setDurations] = useState<Record<string, number>>({});
 
   useEffect(() => {
     getCurrentUserData()
@@ -85,6 +86,21 @@ const Library = () => {
     }
   };
 
+  const timer = (type: any) => {
+    let minutesLeft: any;
+    let secondsLeft: any;
+    let time = type;
+    minutesLeft = Math.floor(time / 60);
+    secondsLeft = Math.floor(time % 60);
+    if (minutesLeft.toString().length === 1) {
+      minutesLeft = "0" + minutesLeft;
+    }
+    if (secondsLeft.toString().length === 1) {
+      secondsLeft = "0" + secondsLeft;
+    }
+    return `${minutesLeft}:${secondsLeft}`;
+  };
+
   useEffect(() => {
     settingBooks();
   }, [books]);
@@ -108,6 +124,16 @@ const Library = () => {
                     className="for-you__recommended--books-link"
                     key={book.id}
                   >
+                    <audio 
+                    src={book.audioLink}
+                    onLoadedMetadata={(e)=> {
+                    const audio = e.currentTarget;
+                    setDurations((prev) => ({
+                        ...prev,
+                        [book.id]: audio.duration,
+                    }))
+                }}
+                    ></audio>
                     {book.subscriptionRequired && (
                       <div className="book__pill book__pill--subscription-required">
                         Premium
@@ -126,7 +152,7 @@ const Library = () => {
                             <div className="recommended__book--details-icon">
                                 <CiTimer />
                             </div>
-                            <div className="recommended__book--details-text">03:22</div>
+                            <div className="recommended__book--details-text">{timer(durations[book.id])}</div>
                         </div>
                         <div className="recommended__book--details">
                             <div className="recommended__book--details-icon">
@@ -160,6 +186,16 @@ const Library = () => {
                     className="for-you__recommended--books-link"
                     key={book.id}
                   >
+                    <audio 
+                    src={book.audioLink}
+                    onLoadedMetadata={(e)=> {
+                    const audio = e.currentTarget;
+                    setDurations((prev) => ({
+                        ...prev,
+                        [book.id]: audio.duration,
+                    }))
+                }}
+                    ></audio>
                     {book.subscriptionRequired && (
                       <div className="book__pill book__pill--subscription-required">
                         Premium
@@ -178,7 +214,7 @@ const Library = () => {
                             <div className="recommended__book--details-icon">
                                 <CiTimer />
                             </div>
-                            <div className="recommended__book--details-text">03:22</div>
+                            <div className="recommended__book--details-text">{timer(durations[book.id])}</div>
                         </div>
                         <div className="recommended__book--details">
                             <div className="recommended__book--details-icon">

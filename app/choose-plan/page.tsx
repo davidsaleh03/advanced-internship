@@ -7,11 +7,43 @@ import { RiPlantFill } from 'react-icons/ri'
 import AccordianCard from '@/components/AccordianCard'
 import AOS from 'aos';
 import 'aos/dist/aos.css'; 
+import { getAuth } from 'firebase/auth'
+import app from '@/redux/firebase/firebase'
+import { getCheckoutUrl } from './stripepayment'
+import { useRouter } from 'next/navigation'
+import { ImSpinner2 } from 'react-icons/im'
 
 AOS.init();
 
 const plans = () => {
+  const auth = getAuth(app);
+
  const [activeSub, setActiveSub] = useState(false)
+ const [loading, setLoading] = useState(false)
+ const router = useRouter()
+ const upgradePremiumPlus = async () => {
+    try {
+       setLoading(true)
+      const priceId = 'price_1T4eHG3z5GrN3liMifnZiFRC'
+      const checkoutUrl = await getCheckoutUrl(app, priceId)
+      router.push(checkoutUrl)
+      setLoading(false)
+    } catch (error) {
+      console.error("Stripe checkout error:", error)
+    }
+  }
+ const upgradePremium = async () => {
+    try {
+        setLoading(true)
+      const priceId = 'price_1T4eHe3z5GrN3liMpQnnq1eN'
+      const checkoutUrl = await getCheckoutUrl(app, priceId)
+      router.push(checkoutUrl)
+      setLoading(false)
+    } catch (error) {
+      console.error("Stripe checkout error:", error)
+    }
+  }
+
   return (
     <div className="wrapper wrapper__full" data-aos="fade-left">
         <div className="plan">
@@ -80,10 +112,20 @@ const plans = () => {
                         activeSub 
                         ?
                     <div className="plan__card--cta">
-                        <span className="btn--wrapper">
+                        <span className="btn--wrapper" onClick={upgradePremium}>
+                            {
+                                loading 
+                                ?
+                            <button className="btn" style={{width: "300px"}} disabled>
+                                <div className="spinner__icon--wrapper">
+                                    <ImSpinner2 />
+                                </div>
+                            </button>
+                            :
                             <button className="btn" style={{width: "300px"}}>
                                 <span>Start Your First Month</span>
                             </button>
+                            }
                         </span>
                         <div className="plan__disclaimer">
                             30-day money back guarantee, no questions asked.
@@ -91,10 +133,20 @@ const plans = () => {
                     </div>
                     :
                     <div className="plan__card--cta">
-                        <span className="btn--wrapper">
+                        <span className="btn--wrapper" onClick={upgradePremiumPlus}>
+                            {
+                                loading
+                                ?
+                            <button className="btn" style={{width: "300px"}} disabled>
+                                <div className="spinner__icon--wrapper">
+                                    <ImSpinner2 />
+                                </div>
+                            </button>
+                            :
                             <button className="btn" style={{width: "300px"}}>
                                 <span>Start your free 7-day trial</span>
                             </button>
+                            }
                         </span>
                         <div className="plan__disclaimer">
                             Cancel your trial at any time before it ends, and you won’t be charged.

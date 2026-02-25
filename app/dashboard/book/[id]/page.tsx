@@ -5,7 +5,7 @@ import { openModal } from "@/redux/modalSlice";
 import { useGetBookQuery } from "@/redux/reccomenedSlice";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CiClock1, CiStar } from "react-icons/ci";
 import { FaBookmark, FaReadme, FaRegBookmark } from "react-icons/fa";
 import { HiOutlineLightBulb, HiOutlineMicrophone } from "react-icons/hi2";
@@ -17,9 +17,11 @@ const Book = () => {
      const params = useParams();
      const dispatch = useDispatch();
      const router = useRouter();
+     const audioRef = useRef<HTMLAudioElement>(null);
   const id = params?.id as string;
    const [userData, setUserData] = useState<any>(null);
-   const [libStatus, setLibStatus] = useState(false)
+   const [libStatus, setLibStatus] = useState(false);
+   const [duration, setDuration] = useState(0);
 
   const { data, isLoading } = useGetBookQuery({ id });
   const bookInfo = data;
@@ -61,6 +63,26 @@ else if (userData.membershipStatus === 'Basic' && bookInfo?.subscriptionRequired
 router.push(`/dashboard/player/${bookInfo?.id}`)
 }
 
+const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration); 
+    }
+  };
+
+const timer = (type: any) => {
+    let minutesLeft: any;
+    let secondsLeft: any;
+    let time = type;
+    minutesLeft = Math.floor(time / 60);
+    secondsLeft = Math.floor(time % 60);
+    if (minutesLeft.toString().length === 1) {
+      minutesLeft = "0" + minutesLeft;
+    }
+    if (secondsLeft.toString().length === 1) {
+      secondsLeft = "0" + secondsLeft;
+    }
+    return `${minutesLeft}:${secondsLeft}`;
+  };
 
   return (
     <div className="wrapper">
@@ -68,7 +90,7 @@ router.push(`/dashboard/player/${bookInfo?.id}`)
         {
           isLoading
           ?
-
+        <>
         <div className="container">
           <div className="inner__book--skeleton">
             <div className="inner__book--skeleton-content">
@@ -87,7 +109,10 @@ router.push(`/dashboard/player/${bookInfo?.id}`)
             </div>
           </div>
         </div>
+        </>
         :
+        <>
+        <audio src={bookInfo?.audioLink} ref={audioRef} onLoadedMetadata={handleLoadedMetadata}></audio>
         <div className="container">
           <div className="inner__wrapper">
             <div className="inner__book">
@@ -102,7 +127,7 @@ router.push(`/dashboard/player/${bookInfo?.id}`)
                   </div>
                   <div className="inner-book__description">
                     <div className="inner-book__icon"><CiClock1 /></div>
-                    <div className="inner-book__duration">03:41</div>
+                    <div className="inner-book__duration">{timer(duration)}</div>
                   </div>
                   <div className="inner-book__description">
                     <div className="inner-book__icon"><HiOutlineMicrophone /></div>
@@ -173,6 +198,7 @@ router.push(`/dashboard/player/${bookInfo?.id}`)
             </div>
           </div>
         </div>
+        </>
         }
       </div>
     </div>

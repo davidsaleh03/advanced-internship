@@ -737,12 +737,12 @@ input {
     .sidebar {
         transform:translateX(-100%)
     }
+    .sidebar--opened {
+        transform: translateX(0);
+        width: 80%
+    }
 }
 
-.sidebar--opened {
-    transform: translateX(0);
-    width: 80%
-}
 
 .selected__book {
     display: flex;

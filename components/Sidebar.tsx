@@ -15,13 +15,16 @@ import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/modalSlice";
 import { useEffect, useState } from "react";
 import { User } from "firebase/auth";
+import { useSelector } from "react-redux";
+import { closeSide } from "@/redux/sidebarSlice";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const pathname = usePathname();
 
     const [user, setUser] = useState<User | null>(null);
-    const [tab, setTab] = useState<String | null>(null)
+    const [tab, setTab] = useState<String | null>(null);
+    const isOpen = useSelector((state: any) => state.side.isOpen);
 
     useEffect(() => {
   if (pathname.endsWith('/dashboard/for-you')) {
@@ -45,20 +48,22 @@ const Sidebar = () => {
     }, []);
 
   return (
-    <div className="sidebar">
+    <>
+    <div className={`sidebar__overlay ${!isOpen && 'sidebar__overlay--hidden'}`} onClick={() => dispatch(closeSide())}></div>
+    <div className={`sidebar ${isOpen && 'sidebar--opened'}`}>
       <div className="sidebar__logo">
         <Image src={Logo} alt="logo"/>
       </div>
       <div className="sidebar__wrapper">
         <div className="sidebar__top">
-          <Link href="/dashboard/for-you" className="sidebar__link--wrapper">
+          <Link href="/dashboard/for-you" className="sidebar__link--wrapper" onClick={() => dispatch(closeSide())}>
             <div className={`sidebar__link--line ${tab === 'one' && 'active--tab'}`}></div>
             <div className="sidebar__icon--wrapper">
               <FaHome />
             </div>
             <div className="sidebar__link--text">For you</div>
           </Link>
-          <Link href="/dashboard/library" className="sidebar__link--wrapper">
+          <Link href="/dashboard/library" className="sidebar__link--wrapper" onClick={() => dispatch(closeSide())}>
             <div className={`sidebar__link--line ${tab === 'two' && 'active--tab'}`}></div>
             <div className="sidebar__icon--wrapper">
               <FaBookmark />
@@ -82,7 +87,7 @@ const Sidebar = () => {
           {pathname.startsWith('/dashboard/player/') && <RotatingFonts />}
         </div>
         <div className="sidebar__bottom">
-          <Link href="/dashboard/settings" className="sidebar__link--wrapper">
+          <Link href="/dashboard/settings" className="sidebar__link--wrapper" onClick={() => dispatch(closeSide())}>
             <div className={`sidebar__link--line ${tab === 'three' && 'active--tab'}`}></div>
             <div className="sidebar__icon--wrapper">
               <IoIosSettings />
@@ -118,6 +123,7 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -4,6 +4,8 @@ import "../styles.css";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { IoIosMenu } from "react-icons/io";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { openSide } from "@/redux/sidebarSlice";
 
 interface Book {
   id: string;
@@ -17,6 +19,8 @@ const TopBar: React.FC = () => {
   const [debouncedSearch, setDebouncedSearch] = useState<string>("");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -86,7 +90,7 @@ const TopBar: React.FC = () => {
             </div>
           </div>
 
-          <div className="sidebar__toggle--btn">
+          <div className="sidebar__toggle--btn" onClick={() => dispatch(openSide())}>
             <IoIosMenu />
           </div>
         </div>

@@ -21,6 +21,8 @@ export const register = async (email: string, password: string) => {
   return userCredential;
 };
 
+
+
 export const getCurrentUserData = async () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
